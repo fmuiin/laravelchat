@@ -45,7 +45,7 @@
             <form wire:submit="submit" class="p-4 border-t bg-white flex items-center gap-2">
                 <input 
                     type="text" wire:model="newMessage"
-                    class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+                    class="text-black flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
                     placeholder="Type your message..." />
                 <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-full transition">

@@ -18,6 +18,16 @@ class Chat extends Component
     {
         $this->users = User::whereNot("id", Auth::id())->get();
         $this->selectedUser = $this->users->first();
+        $this->loadMessages();
+    }
+    public function selectUser($userId)
+    {
+        $this->selectedUser = User::find($userId);
+        $this->loadMessages();
+    }
+
+    public function loadMessages()
+    {
         $this->messages = ChatMessage::query()
             ->where(function($query) {
                 $query->where("sender_id", Auth::id())
@@ -27,22 +37,20 @@ class Chat extends Component
                 $query->where("sender_id", $this->selectedUser->id)
                     ->where("receiver_id", Auth::id());
             })->latest()->get();
-
-    }
-    public function selectUser($userId)
-    {
-        $this->selectedUser = User::find($userId);
     }
 
     public function submit()
     {
         if(!$this->newMessage) return;
 
-        ChatMessage::create([
+        $message = ChatMessage::create([
             "sender_id" => Auth::id(),
             "receiver_id" => $this->selectedUser->id,
             "message" => $this->newMessage
         ]);
+
+        $this->messages->push($message);
+        $this->newMessage = "";
     }
 
     public function render()
