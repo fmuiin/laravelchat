@@ -13,7 +13,8 @@
             <div class="divide-y">
 
             @foreach ($users as $user)
-                <div class="p-3 cursor-pointer hover:bg-blue-100 transition">
+                <div wire:click="selectUser({{ $user->id }})" class="p-3 cursor-pointer hover:bg-blue-100 transition 
+                    {{ $selectedUser->id === $user->id ? 'bg-blue-50 font-semibold' : '' }}">
                     <div class="text-gray-800">{{$user->name}}</div>
                     <div class="text-xs text-gray-500">{{$user->email}}</div>
                 </div>
@@ -31,17 +32,19 @@
     
             <!-- Messages -->
             <div class="flex-1 p-4 overflow-y-auto space-y-2 bg-gray-50">
-                <div class="flex justify-end">
-                    <div class="max-w-xs px-4 py-2 rounded-2xl shadow bg-blue-600 text-white">
-                        Hi, This is test
+                @foreach ($messages as $message)
+                    <div class="flex justify-end">
+                        <div class="max-w-xs px-4 py-2 rounded-2xl shadow bg-blue-600 text-white">
+                            {{ $message->message }}
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
     
             <!-- Input -->
-            <form class="p-4 border-t bg-white flex items-center gap-2">
+            <form wire:submit="submit" class="p-4 border-t bg-white flex items-center gap-2">
                 <input 
-                    type="text"
+                    type="text" wire:model="newMessage"
                     class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
                     placeholder="Type your message..." />
                 <button type="submit"
